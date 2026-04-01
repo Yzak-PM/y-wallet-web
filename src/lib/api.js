@@ -2,7 +2,14 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function request(endpoint, options = {}) {
-    const url = `${BASE_URL}${endpoint}`;
+    let url = `${BASE_URL}${endpoint}`;
+    
+    // Convertir params a query string
+    if (options.params) {
+        const queryString = new URLSearchParams(options.params).toString();
+        url = `${url}${url.includes("?") ? "&" : "?"}${queryString}`;
+        delete options.params; // evitar que fetch lo vea como opción inválida
+    }
 
     const config = {
         headers: {

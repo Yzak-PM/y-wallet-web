@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
-import AccountsTable from "../accounts/accountsTable";
-import LogoutButton from "@/components/ui/LogoutButton";
+import AccountsTable from "@/components/accounts/accountsTable";
+import LogoutBtn  from "@/components/ui/LogoutBtn";
+import TransactionsList from "@/components/transactions/TransactionsList";
+import AddTransactionBtn from "@/components/transactions/AddTransactionBtn";
 
 export default function DashboardPage() {
     const [summary, setSummary] = useState(null);
@@ -27,7 +29,7 @@ export default function DashboardPage() {
                         <h1 className="text-2xl font-bold text-neutral-800">Y-Wallet</h1>
                         <p className="text-xs text-neutral-400">Finance Dashboard</p>
                     </div>
-                    <LogoutButton/>
+                    <LogoutBtn/>
                 </div>
 
                 <hr className="hidden sm:block mt-2 mb-4 text-gray-400"/>
@@ -74,8 +76,8 @@ export default function DashboardPage() {
                     {/* Transacciones */}
                     <div className="flex flex-col md:col-span-3">
                         <p className="text-xs uppercase text-neutral-500 mb-1">Transactions</p>
-                        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                            {/* lista aquí */}
+                        <div className="rounded-xl ">
+                            <TransactionsList/>
                         </div>
                     </div>
 
@@ -88,6 +90,8 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </div>
+
+            <AddTransactionBtn/>
         </main>
     );
 }

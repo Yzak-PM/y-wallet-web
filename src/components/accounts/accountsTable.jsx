@@ -37,7 +37,7 @@ export default function AccountsTable({ nature }){
                             //     borderBottom: `3px solid ${account.color}`,
                             // }}
                         >
-                            {account.balance}
+                            $ {account.balance}
                             <div
                                 className="mt-1 mx-auto rounded-full"
                                 style={{
