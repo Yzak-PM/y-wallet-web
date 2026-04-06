@@ -19,14 +19,16 @@ const INITIAL_STATE = {
 
 function validate(fields){
     const errors = {};
-    if (!fields.amount || isNaN(Number(fields.amunt)) || Number(fields.amount) <= 0)
+    if(!fields.description)
+        errors.description = "description is required";
+    if (!fields.amount || isNaN(Number(fields.amount)) || Number(fields.amount) <= 0)
         errors.amount = "Add a valid amount greater than 0";
     if(!fields.date)
         errors.date = "Date is required";
     if(!fields.category)
-        errors.category = "Date is required";
+        errors.category = "Category is required";
     if(!fields.account)
-        errors.account = "Date is required";
+        errors.account = "Account is required";
     return errors;
 }
 
@@ -43,14 +45,20 @@ export default function TransactionForm() {
 
     useEffect(() => {
         api.get("/accounts/")
-        .then(setAccounts)
+        .then((data) => {
+                setAccounts(data);
+                setFields((prev) => ({ ...prev, account: data[0]?.id ?? "" })); 
+            })
         .catch((err) => setErrors(err.message))
         .finally(() => setLoadingAccounts(false));
     }, []);
 
     useEffect(() => {
         api.get("/categories/")
-        .then(setCategories)
+        .then((data) => {
+            setCategories(data);
+            setFields((prev) => ({ ...prev, category: data[0]?.id ?? "" }));  // 👈
+        })
         .catch((err) => setErrors(err.message))
         .finally(() => setLoadingCategories(false));
     }, []);
@@ -102,7 +110,7 @@ export default function TransactionForm() {
     const isMovement = fields.type === "Movement";
 
     return (
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} noValidate className="h-screen">
             {serverError && (
                 <p className="text-red-600">
                     {serverError}
@@ -176,24 +184,58 @@ export default function TransactionForm() {
                 )}
             </div>
 
-            <div className="relative z-0">
-                <input type="text" id="description" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                <label className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+            <div className="relative z-0 mt-5">
+                <input 
+                    type="text" 
+                    id="description"
+                    name="description" 
+                    value={fields.description}
+                    onChange={handleChange}
+                    className="block py-2.5 px-0 w-full text-4xl text-heading bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
+                <label className="absolute text-4xl text-gray-500 duration-300 transform -translate-y-9 scale-40 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-40 peer-focus:-translate-y-9 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                     Description
                 </label>
+                <p className="text-red-500 text-sm">{errors.description}</p>
             </div>
 
-            <div className="relative z-0">
-                <input type="number" id="amount" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                <label htmlFor="amount" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+            <div className="relative z-0 mt-3">
+                <input 
+                    type="number" 
+                    id="amount" 
+                    name="amount"
+                    value={fields.amount}
+                    onChange={handleChange}
+                    className="block py-2.5 px-0 w-full text-4xl text-heading bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
+                <label htmlFor="amount" className="absolute text-4xl text-gray-500 duration-300 transform -translate-y-9 scale-40 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-40 peer-focus:-translate-y-9 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                     Amount
                 </label>
+                <p className="text-red-500 text-sm">{errors.amount}</p>
             </div>
 
-            <TagInput 
-                value={fields.tags}
-                onChange={(tags) => setFields((prev) => ({ ...prev, tags}))}
+            <input 
+                type="date" 
+                name="date"
+                onChange={handleChange}
+                value={fields.date ?? new Date().toISOString().split('T')[0]}
+                className="w-full rounded-full border border-neutral-300 px-3 py-1 mt-3"
             />
+
+            <div className="mt-4">
+                <TagInput 
+                    value={fields.tags}
+                    onChange={(tags) => setFields((prev) => ({ ...prev, tags}))}
+                />
+            </div>
+
+            <div className="fixed bottom-3 right-3">
+                <button 
+                    type="submit" 
+                    className={`text-white bg-gradient-to-r from-teal-400 to-blue-600 cursor-pointer hover:bg-gradient-to-br disabled:bg-gradient-to-r disabled:from-gray-200 disabled:to-gray-200 disabled:text-gray-400 disabled:${isLoading ? "cursor-progress" : "cursor-not-allowed"} rounded-full text-md font-bold px-6 py-2 text-center`}
+                    disabled={isLoading || !isValid}
+                >
+                    {isLoading ? "Submitting..." : "Create Transaction"}
+                </button>
+            </div>
         </form>
     )
 }

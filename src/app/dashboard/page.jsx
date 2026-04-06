@@ -41,16 +41,6 @@ export default function DashboardPage() {
                     </h1>
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-start items-center gap-1 mb-4">
-                    <select id="" className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 text-sm rounded-full focus:ring-brand focus:border-brand shadow-xs placeholder:text-body">
-                        <option value="">All categories</option>
-                    </select>
-                    <div className="flex flex-row gap-1">
-                        <input type="date" id="simple-search" className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs"/>
-                        <input type="date" id="simple-search" className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs"/>
-                    </div>
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                     <div className="flex flex-col">
                         <div className="flex justify-between items-end mb-1">
@@ -72,11 +62,21 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
+                <div className="flex flex-col md:flex-row justify-start items-center gap-1 mb-4">
+                    <select id="" className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 text-sm rounded-full focus:ring-brand focus:border-brand shadow-xs placeholder:text-body">
+                        <option value="">All categories</option>
+                    </select>
+                    <div className="flex flex-row gap-1">
+                        <input type="date" id="simple-search" className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs"/>
+                        <input type="date" id="simple-search" className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs"/>
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
                     {/* Transacciones */}
                     <div className="flex flex-col md:col-span-3">
                         <p className="text-xs uppercase text-neutral-500 mb-1">Transactions</p>
-                        <div className="rounded-xl ">
+                        <div className="rounded-xl h-[calc(100vh-400px)] overflow-auto">
                             <TransactionsList/>
                         </div>
                     </div>
