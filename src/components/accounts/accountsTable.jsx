@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import TableSkeleton from "../ui/TableSkeleton";
+import MessageContainer from "../ui/MessageContainer";
 
 export default function AccountsTable({ nature }){
     const [accounts, setAccounts] = useState([]);
@@ -8,14 +10,23 @@ export default function AccountsTable({ nature }){
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        api.get("/accounts")
+        api.get("/accounts/")
             .then(setAccounts)
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
     }, []);
 
-    if(loading) return <p>Loading...</p>;
-    if(error) return <p>Error: {error}</p>;
+    if (loading) return (
+        <TableSkeleton />
+    );
+
+    if (error) return (
+        <MessageContainer type="error" title="Something went wrong" msg={error} />
+    );
+
+    if (!accounts) return (
+        <MessageContainer type="warning" title="No Accounts found" msg="Click '+' button to add a transaction" />
+    );
 
     return (
         <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-lg border border-gray-200">
