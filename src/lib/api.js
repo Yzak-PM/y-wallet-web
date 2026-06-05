@@ -1,14 +1,12 @@
-// lib/api.js
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function request(endpoint, options = {}) {
     let url = `${BASE_URL}${endpoint}`;
     
-    // Convertir params a query string
     if (options.params) {
         const queryString = new URLSearchParams(options.params).toString();
         url = `${url}${url.includes("?") ? "&" : "?"}${queryString}`;
-        delete options.params; // evitar que fetch lo vea como opción inválida
+        delete options.params; 
     }
 
     const config = {
@@ -28,18 +26,24 @@ async function request(endpoint, options = {}) {
     const res = await fetch(url, config);
 
     if (res.status === 401) {
-        if (typeof window !== "undefined") {
+        if (!options.skipRedirect && typeof window !== "undefined") {
             localStorage.removeItem("access_token");
             window.location.href = "/login";
         }
-        throw new Error("Sesión expirada");
+        const error = await res.json().catch(() => ({}));
+        const message = error.detail || "Sesión expirada";
+        throw new Error(message);
     }
 
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
-        throw new Error(error.detail || `Error ${res.status}`);
+        const message = error.detail
+            || Object.values(error).flat()[0]
+            || `Error ${res.status}`;
+        throw new Error(message);
     }
 
+    if (res.status === 204) return null;
     return res.json();
 }
 
@@ -50,11 +54,11 @@ export const api = {
     patch:  (endpoint, body, opts) => request(endpoint, { method: "PATCH", body: JSON.stringify(body), ...opts }),
     delete: (endpoint, opts) => request(endpoint, { method: "DELETE", ...opts }),
 
-    // Función login que guarda el token automáticamente
     login: async (username, password) => {
         const data = await request("/auth/login/", {
             method: "POST",
             body: JSON.stringify({ username, password }),
+            skipRedirect: true, 
         });
         localStorage.setItem("access_token", data.access);
         localStorage.setItem("refresh_token", data.refresh);
@@ -63,7 +67,6 @@ export const api = {
         return data;
     },
 
-    // logout
     logout: () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
