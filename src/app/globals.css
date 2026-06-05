@@ -1,2 +1,23 @@
 @import "tailwindcss";
 
+@keyframes slide-in {
+  0%   { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-out {
+  0%   { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+
+@theme {
+  --color-background: #f5f5f7;
+  --animate-slide-in: slide-in 0.3s ease-out forwards;
+  --animate-slide-out: slide-out 0.3s ease-in forwards;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+  }
+}

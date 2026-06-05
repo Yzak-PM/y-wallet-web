@@ -1,5 +1,5 @@
-export default function SimpleSkeleton({ position, width }) {
+export default function SimpleSkeleton({ position, width, className = "" }) {
     return (
-        <div className={`h-3.5 bg-gray-200 rounded-full self-` + position + ` w-` + width}></div>
+        <div className={`h-3.5 animate-pulse bg-gray-300 rounded-full place-self-` + position + ` w-` + width + ` ` + className}></div>
     )
 }

@@ -1,12 +1,34 @@
+'use client';
+import { api } from '../../lib/api';
+import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { TagIcon, LogOutIcon, SettingsIcon, ShelvingUnitIcon } from 'lucide-react';
 
-export default function UserBadge({ 
-    initials = "NA",
-    name = "Not found",
-    email = "user@test.com"
-}) {
+export default function UserBadge() {
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const data = await api.get("/users/me/");
+                setUser(data);
+            } catch(err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchUser();
+    }, []);
+
+    const nameInitials = user
+    ? (user.first_name?.[0] ?? "").toUpperCase() + (user.last_name?.[0] ?? "").toUpperCase()
+    : "NA";
 
     //Cerrar dropdown al hacer click fuera
     useEffect(() => {
@@ -15,37 +37,53 @@ export default function UserBadge({
                 setOpen(false);
             }
         }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     return (
-        <>
+        <div ref={ref} className="relative">
             <div
-                data-dropdown-toggle="userDropdown" 
-                data-dropdown-placement="bottom-start" 
-                className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-400 rounded-full"
+                className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-400 rounded-full cursor-pointer"
+                onClick={() => setOpen(prev => !prev)}
             >
-                <span className="font-medium text-white">IP</span>
+                <span className="font-medium text-white">{ nameInitials }</span>
             </div>
-            <div id="userDropdown" className="z-10 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44">
-                <div className="px-4 py-3 border-b border-default-medium text-sm text-heading">
-                <div className="font-medium">Bonnie Green</div>
-                <div className="truncate">name@flowbite.com</div>
+            {open && (
+                <div className="absolute right-0 z-10 min-w-47 bg-neutral-50 border border-neutral-400 rounded-xl shadow-2xl">
+                    <div className="px-4 py-3 border-b border-neutral-400 text-sm text-heading">
+                        <div className="flex justify-between items-center">
+                            <div className="font-medium">{user?.first_name} {user?.last_name}</div>
+                            <Link href="/settings/account" onClick={() => setOpen(false)}>
+                                <SettingsIcon className="cursor-pointer" />
+                            </Link>
+                        </div>
+                        <div className="truncate mt-1">{user?.email}</div>
+                    </div>
+                    <ul className="p-2 text-sm font-medium" aria-labelledby="avatarButton">
+                        <Link
+                            href="/settings/categories" 
+                            onClick={() => setOpen(false)}
+                            className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
+                        >
+                            <ShelvingUnitIcon /> Manage Categories
+                        </Link>
+                        <Link 
+                            href="/settings/categories"
+                            onClick={() => setOpen(false)}
+                            className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
+                        >
+                            <TagIcon /> Manage Tags
+                        </Link>
+                        <li 
+                            className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
+                            onClick={() => api.logout()}
+                        >
+                            <LogOutIcon className="text-red-500" /> Log Out
+                        </li>
+                    </ul>
                 </div>
-                <ul className="p-2 text-sm text-body font-medium" aria-labelledby="avatarButton">
-                <li>
-                    <a href="#" className="block w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md">Dashboard</a>
-                </li>
-                <li>
-                    <a href="#" className="block w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md">Settings</a>
-                </li>
-                <li>
-                    <a href="#" className="block w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded-md">Earnings</a>
-                </li>
-                <li>
-                    <a href="#" className="block w-full p-2 hover:bg-neutral-tertiary-medium text-fg-danger rounded-md">Sign out</a>
-                </li>
-                </ul>
-            </div>
-        </>
+            )}
+        </div>
     )
 }
