@@ -117,7 +117,7 @@ export default function TransactionForm() {
                 </p>
             )}
 
-            <div className={`grid gap-3 content-end ${isMovement ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3"}`}>
+            <div className={`grid gap-3 content-end ${isMovement ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3"}`}>
                 <div className="flex flex-col">
                     { isMovement && 
                         <label htmlFor="" className="text-white text-xs">-</label>
@@ -184,7 +184,9 @@ export default function TransactionForm() {
                 )}
             </div>
 
-            <div className="relative z-0 mt-5">
+            <hr className="h-px mb-8 mt-8 bg-neutral-300 border-0" />
+
+            <div className="relative z-0">
                 <input 
                     type="text" 
                     id="description"
@@ -198,7 +200,7 @@ export default function TransactionForm() {
                 <p className="text-red-500 text-sm">{errors.description}</p>
             </div>
 
-            <div className="relative z-0 mt-3">
+            <div className="relative z-0 mt-4">
                 <input 
                     type="number" 
                     id="amount" 
@@ -212,12 +214,14 @@ export default function TransactionForm() {
                 <p className="text-red-500 text-sm">{errors.amount}</p>
             </div>
 
+            <hr className="h-px my-8 bg-neutral-300 border-0" />
+
             <input 
                 type="date" 
                 name="date"
                 onChange={handleChange}
                 value={fields.date ?? new Date().toISOString().split('T')[0]}
-                className="w-full rounded-full border border-neutral-300 px-3 py-1 mt-3"
+                className="w-full rounded-full border border-neutral-300 px-3 py-1"
             />
 
             <div className="mt-4">

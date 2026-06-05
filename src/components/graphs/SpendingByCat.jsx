@@ -9,17 +9,15 @@ import {
     Cell
 } from 'recharts';
 import { useState, useEffect, startTransition } from 'react';
-import { api } from '@/lib/api';
-import MessageContainer from '@/components/ui/MessageContainer';
+import { api } from '../../lib/api';
+import MessageContainer from '../../components/ui/MessageContainer';
 import GraphSkeleton from '../ui/GraphSkeleton';
 
 export default function SpendingByCatChart({ startDate, endDate, category }) {
     const [state, setState] = useState({ data: [], loading: true, error: null });
 
     useEffect(() => {
-        startTransition(() => {
-            setState({ data: [], loading: true, error: null });
-        });
+        startTransition(() => { });
 
         api.get('/finance/expenses_by_category/', {
                 params: { start_date: startDate, end_date: endDate, category: category }
@@ -38,8 +36,8 @@ export default function SpendingByCatChart({ startDate, endDate, category }) {
         <MessageContainer type="error" title="Something went wrong" msg={error} />
     );
 
-    if (!chartData) return (
-        <MessageContainer type="warning" title="No transactions found" msg="Click '+' button to add a transaction" />
+    if (!chartData || !chartData.length) return (
+        <MessageContainer type="warning" title="No expenses found" msg="Click '+' button to add a expense" />
     );
 
     return (

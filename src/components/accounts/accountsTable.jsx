@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { api } from "../../lib/api";
 import TableSkeleton from "../ui/TableSkeleton";
 import MessageContainer from "../ui/MessageContainer";
 
@@ -31,7 +31,7 @@ export default function AccountsTable({ nature }){
     return (
         <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-lg border border-gray-200">
             <table className="w-full text-sm text-center rtl:text-right text-body">
-                <thead className={`text-sm text-body ${nature === 'asset' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'}`}>
+                <thead className={`text-sm text-nowrap text-body ${nature === 'asset' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'}`}>
                     <tr>
                     {accounts.filter(a => a.nature === nature).map((account) => (
                         <th key={account.id} className="px-6 py-3 font-semibold">{account.name}</th>

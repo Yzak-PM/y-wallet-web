@@ -1,4 +1,3 @@
-import "@/app/globals.css";
 import TagBadge from "../ui/TagBadge";
 
 const sign  = { expense: "-", income: "+", movement: "" };

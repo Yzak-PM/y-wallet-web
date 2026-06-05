@@ -12,7 +12,7 @@ export default function CustomSelect({
             value={value}
             onChange={onChange}
             disabled={disabled}
-            className={`rounded-full p-1 bg-neutral-100 ${className}`}
+            className={`rounded-full p-1 bg-neutral-secondary-medium border border-gray-200 shadow-xs text-sm ${className}`}
         >
             {options.map((opt) => (
                 <option
