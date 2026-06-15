@@ -91,7 +91,7 @@ export default function Accounts() {
             : errorAccounts // Error
               ? <MessageContainer title="Error loading accounts" msg={errorAccounts} type={error} />
               : accounts.length === 0 // Empty
-                ? <MessageContainer title="No accounts found" msg="Add your first account to get started" type="empty" />
+                ? <div className="col-span-full"><MessageContainer title="No accounts found" msg="Add your first account to get started" type="empty" /></div>
                 : accounts.map(account => ( // Map
                   <AccountCard 
                     key={account.id} 

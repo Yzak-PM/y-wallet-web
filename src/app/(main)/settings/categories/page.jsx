@@ -138,7 +138,7 @@
               ? <MessageContainer title={`Error loading ${selectedSection}`} msg={errorCats || errorTags} type="error"/>
               : items.length === 0
                 // Empty
-                ? <MessageContainer title={`No ${selectedSection} yet`} msg={`Add your first ${selectedSectionSing.toLocaleLowerCase()} to get started.`} type="empty"/>
+                ? <div className="col-span-full"><MessageContainer title={`No ${selectedSection} yet`} msg={`Add your first ${selectedSectionSing.toLocaleLowerCase()} to get started.`} type="empty"/></div>
                 : items.map(item => (
                 <ItemCard
                   key={item.id}
