@@ -2,7 +2,7 @@
 import { api } from '../../lib/api';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
-import { TagIcon, LogOutIcon, SettingsIcon, ShelvingUnitIcon } from 'lucide-react';
+import { TagIcon, LogOutIcon, SettingsIcon, ShelvingUnitIcon, CreditCardIcon } from 'lucide-react';
 
 export default function UserBadge() {
     const [open, setOpen] = useState(false);
@@ -54,7 +54,7 @@ export default function UserBadge() {
                     <div className="px-4 py-3 border-b border-neutral-400 text-sm text-heading">
                         <div className="flex justify-between items-center">
                             <div className="font-medium">{user?.first_name} {user?.last_name}</div>
-                            <Link href="/settings/account" onClick={() => setOpen(false)}>
+                            <Link href="/settings/profile" onClick={() => setOpen(false)}>
                                 <SettingsIcon className="cursor-pointer" />
                             </Link>
                         </div>
@@ -62,18 +62,25 @@ export default function UserBadge() {
                     </div>
                     <ul className="p-2 text-sm font-medium" aria-labelledby="avatarButton">
                         <Link
+                            href="/settings/accounts" 
+                            onClick={() => setOpen(false)}
+                            className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
+                        >
+                            <CreditCardIcon /> Accounts
+                        </Link>
+                        <Link
                             href="/settings/categories" 
                             onClick={() => setOpen(false)}
                             className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
                         >
-                            <ShelvingUnitIcon /> Manage Categories
+                            <ShelvingUnitIcon /> Categories
                         </Link>
                         <Link 
                             href="/settings/categories"
                             onClick={() => setOpen(false)}
                             className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
                         >
-                            <TagIcon /> Manage Tags
+                            <TagIcon /> Tags
                         </Link>
                         <li 
                             className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"

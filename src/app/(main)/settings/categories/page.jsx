@@ -120,6 +120,7 @@
               type="button" 
               onClick={() => {
                 setFormItemMode("add");
+                setSelectedItem(null);
                 setModalFormItemOpen(true);
               }}
               className="flex cursor-pointer text-sm bg-gradient-to-br from-blue-800 to-blue-500 text-white hover:bg-gradient-to-tl font-medium rounded-lg py-2 ps-2 pe-3 text-center">
@@ -138,7 +139,7 @@
               : items.length === 0
                 // Empty
                 ? <MessageContainer title={`No ${selectedSection} yet`} msg={`Add your first ${selectedSectionSing.toLocaleLowerCase()} to get started.`} type="empty"/>
-                :items.map(item => (
+                : items.map(item => (
                 <ItemCard
                   key={item.id}
                   item={item}

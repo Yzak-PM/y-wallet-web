@@ -120,7 +120,6 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
 
         {/* Fields */}
         <div className="grid gap-4">
-
           {/* Color */}
           <div className="flex gap-3 items-center">
             <label className="ms-1 text-sm">Color:</label>
