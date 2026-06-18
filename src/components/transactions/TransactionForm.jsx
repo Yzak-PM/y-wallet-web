@@ -84,14 +84,14 @@ export default function TransactionForm() {
 
         try{
             const payload = {
-                amount: fields.type === "Expense"
+                amount: fields.type === "expense"
                     ? -Math.abs(Number(fields.amount))      
                     :  Math.abs(Number(fields.amount)),
                 date: fields.date,
                 category: fields.category,
                 description: fields.description.trim() || null,
                 account: fields.account,
-                type: fields.type,
+                type: fields.type.toLowerCase(), //to lower para que 
             };
 
             await createTransaction(payload);
@@ -99,7 +99,7 @@ export default function TransactionForm() {
         } catch (err) {
             const msg = err?.response?.data?.message
                         || err?.message
-                        || "Erro, please try again.";
+                        || "Error, please try again.";
             setServerError(msg);
         } finally {
             setIsLoading(false);
@@ -111,12 +111,6 @@ export default function TransactionForm() {
 
     return (
         <form onSubmit={handleSubmit} noValidate className="h-screen">
-            {serverError && (
-                <p className="text-red-600">
-                    {serverError}
-                </p>
-            )}
-
             <div className={`grid gap-3 content-end ${isMovement ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3"}`}>
                 <div className="flex flex-col">
                     { isMovement && 
@@ -230,6 +224,11 @@ export default function TransactionForm() {
                     onChange={(tags) => setFields((prev) => ({ ...prev, tags}))}
                 />
             </div>
+            {serverError && (
+                <p className="text-red-600 text-center mt-4">
+                    {serverError}
+                </p>
+            )}
 
             <div className="fixed bottom-3 right-3">
                 <button 
