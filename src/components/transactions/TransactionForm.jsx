@@ -162,7 +162,7 @@ export default function TransactionForm() {
                         options={ accounts
                                         .filter((acc) => !isMovement || acc.nature === "asset")
                                         .map((acc) => (
-                                            { id: acc.id, label: acc.name}
+                                            { id: acc.id, label: acc.name + ` ($${acc.balance})`}
                                         ))
                                 }
                     />
@@ -177,7 +177,7 @@ export default function TransactionForm() {
                             onChange={handleChange}
                             disabled={isLoading || loadingAccounts}
                             options={ accounts.map((acc) => (
-                                { id: acc.id, label: acc.name }
+                                { id: acc.id, label: acc.name + ` ($${acc.balance})` }
                             ))}
                         />
                     </div>
