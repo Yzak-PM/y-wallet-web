@@ -84,9 +84,7 @@ export default function TransactionForm() {
 
         try{
             const payload = {
-                amount: fields.type === "expense"
-                    ? -Math.abs(Number(fields.amount))      
-                    :  Math.abs(Number(fields.amount)),
+                amount: Math.abs(Number(fields.amount)),
                 date: fields.date,
                 category: fields.category,
                 description: fields.description.trim() || null,
