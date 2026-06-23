@@ -22,7 +22,7 @@ export default function TransactionsList({ startDate, endDate, category}) {
     if (loading) return (
         <div role="status" className="rounded-lg animate-pulse md:p-6">
             {Array.from({ length: 5 }).map((_, i) => (
-                <CardSkeleton key={i} className="mb-3" />
+                <CardSkeleton key={i} className="mb-3 bg-white" />
             ))}
         </div>
     );

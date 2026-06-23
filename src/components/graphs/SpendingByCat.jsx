@@ -41,9 +41,9 @@ export default function SpendingByCatChart({ startDate, endDate, category }) {
     );
 
     return (
-        <div className="bg-surface rounded-full p-5 h-full">
+        <div className="bg-surface p-5 h-full">
             <h2 className="text-heading font-semibold mb-3">Expenses by category</h2>
-            <ResponsiveContainer width="100%" height="95%">
+            <ResponsiveContainer width="100%" height="92%">
                 <BarChart data={chartData} margin={{ top:4, right: 16, left:0, bottom:4 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis

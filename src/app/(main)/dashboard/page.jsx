@@ -140,7 +140,7 @@ export default function DashboardPage() {
                 {/* Transacciones */}
                 <div className="flex flex-col md:col-span-3">
                     <p className="text-xs uppercase text-neutral-500 mb-1">Transactions</p>
-                    <div className="rounded-xl max-h-[calc(100vh-430px)] overflow-auto">
+                    <div className="rounded-xl max-h-[calc(100vh-510px)] overflow-auto">
                         <TransactionsList
                             startDate={startDate}
                             endDate={endDate}
@@ -152,7 +152,7 @@ export default function DashboardPage() {
                 {/* Gráfica */}
                 <div className="flex flex-col md:col-span-2">
                     <p className="text-xs uppercase text-neutral-500 mb-1">Overview</p>
-                    <div className="bg-white rounded-xl max-h-[calc(100vh-430px)] shadow-md">
+                    <div className="bg-white rounded-xl h-[calc(100vh-510px)] shadow-md">
                         <SpendingByCatChart
                             startDate={startDate}
                             endDate={endDate}
