@@ -85,7 +85,7 @@ export const api = {
   delete: (endpoint, opts) => request(endpoint, { method: "DELETE", ...opts }),
 
   login: async (username, password) => {
-    const data = await request("/auth/login/", {
+    const data = await request("/api/auth/login/", {
       method: "POST",
       body: JSON.stringify({ username, password }),
       skipRedirect: true, // evita el flujo de refresh en caso de 401
