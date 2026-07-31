@@ -14,7 +14,7 @@ export default function UserBadge() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const data = await api.get("/users/me/");
+                const data = await api.get("/api/users/me/");
                 setUser(data);
             } catch(err) {
                 setError(err.message);

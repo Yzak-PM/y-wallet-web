@@ -19,7 +19,7 @@ export default function SpendingByCatChart({ startDate, endDate, category }) {
     useEffect(() => {
         startTransition(() => { });
 
-        api.get('/finance/expenses_by_category/', {
+        api.get('/api/finance/expenses_by_category/', {
                 params: { start_date: startDate, end_date: endDate, category: category }
             })
             .then(data => setState({ data, loading: false, error: null }))

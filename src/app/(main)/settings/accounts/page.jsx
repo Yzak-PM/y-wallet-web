@@ -29,7 +29,7 @@ export default function Accounts() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data = await api.get("/accounts/");
+        const data = await api.get("/api/accounts/");
         setAccounts(data);
       } catch(err) {
         setErrorAccounts(err.message);
@@ -43,7 +43,7 @@ export default function Accounts() {
   const handleDelete = async () => {
     setDeleting(true);
     try {
-      await api.delete(`/accounts/${selectedAccount.id}`);
+      await api.delete(`/api/accounts/${selectedAccount.id}`);
 
       setModalDeleteOpen(false);
       setSelectedAccount(null);

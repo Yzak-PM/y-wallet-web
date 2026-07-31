@@ -10,7 +10,7 @@ export default function AccountsTable({ nature }){
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        api.get("/accounts/")
+        api.get("/api/accounts/")
             .then(setAccounts)
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));

@@ -37,7 +37,7 @@
     useEffect(() => {
       const fetch = async () => {
         try {
-          const data = await api.get("/categories/");
+          const data = await api.get("/api/categories/");
           setCategories(data);
         } catch(err) {
           setErrorCats(err.message);
@@ -51,7 +51,7 @@
     useEffect(() => {
       const fetch = async () => {
         try { 
-          const data = await api.get("/tags/");
+          const data = await api.get("/api/tags/");
           setTags(data);
         } catch(err) {
           setErrorTags(err.message);

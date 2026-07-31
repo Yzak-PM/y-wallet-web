@@ -7,7 +7,7 @@ import { api } from "@/lib/api";
 export default function ItemFormModal({ mode, section, item, onClose, onSuccess }) {
   const isEdit = mode === "edit";
   const isCategory = section === "categories";
-  const endpoint = isCategory ? "/categories/" : "/tags/";
+  const endpoint = isCategory ? "/api/categories/" : "/api//tags/";
   const label = isCategory ? "Category" : "Tag";
 
   const [form, setForm] = useState(() => ({

@@ -40,7 +40,7 @@ export default function TagInput({ value = [], onChange }){
         debounceRef.current = setTimeout(async () => {
             setIsLoading(true);
             try {
-                const res = await api.get("/tags/", { params: { search: query } });
+                const res = await api.get("/api/tags/", { params: { search: query } });
                 const filtered = res.filter((tag) => !selectedIdsRef.current.has(tag.id));
                 setOptions(filtered);
                 setIsOpen(filtered.length > 0);

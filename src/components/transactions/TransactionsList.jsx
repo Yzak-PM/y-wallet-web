@@ -11,7 +11,7 @@ export default function TransactionsList({ startDate, endDate, category}) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        api.get("/transactions/", {
+        api.get("/api/transactions/", {
                 params: { start_date: startDate, end_date: endDate, category: category}
             })
             .then(setTransactions)

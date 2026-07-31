@@ -34,7 +34,7 @@ export default function DashboardPage() {
     useEffect(() => {
         const fetchSummary = async () => {
             try {
-                const data = await api.get("/finance/summary/");
+                const data = await api.get("api/finance/summary/");
                 setSummary(data);
             } catch(err) {
                 setErrorSummary(err.message);
@@ -49,7 +49,7 @@ export default function DashboardPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await api.get("/categories/");
+                const data = await api.get("/api/categories/");
                 setCategories(data);
             } catch(err) {
                 setErrorCategories(err.message);

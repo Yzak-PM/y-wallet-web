@@ -30,7 +30,7 @@ export default function Account(){
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await api.get("/users/me/");
+        const data = await api.get("/api/users/me/");
         setUser(data);
 
         setForm({
@@ -84,7 +84,7 @@ export default function Account(){
         email: form.email,
       }
 
-      const data = await api.patch('/users/me/', payload);
+      const data = await api.patch('/api/users/me/', payload);
       setUser(data);
       setForm({
         firstName: data.first_name || "",

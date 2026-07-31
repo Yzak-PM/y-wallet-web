@@ -63,9 +63,9 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
       }
 
       if(isEdit) {
-        await api.put(`/accounts/${account.id}/`, payload);
+        await api.put(`/api/accounts/${account.id}/`, payload);
       } else {
-        await api.post('/accounts/', payload);
+        await api.post('/api/accounts/', payload);
       }
 
       onSuccess();
