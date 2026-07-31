@@ -10,12 +10,16 @@ export default function middleware(request) {
 
     // Sin token intentando entrar a ruta privada → redirige al login
     if (!token && !isPublic) {
-        return NextResponse.redirect(new URL("/login", request.url));
+        const url = request.nextUrl.clone();
+        url.pathname = "/login";
+        return NextResponse.redirect(url);
     }
 
     // Con token intentando entrar al login → redirige al dashboard
     if (token && isPublic) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+        const url = request.nextUrl.clone();
+        url.pathname = "/dashboard";
+        return NextResponse.redirect(url);
     }
 
     return NextResponse.next();
