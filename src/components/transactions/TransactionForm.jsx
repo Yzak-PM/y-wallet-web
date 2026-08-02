@@ -45,7 +45,7 @@ export default function TransactionForm() {
 
   useEffect(() => {
     api
-      .get("/accounts/")
+      .get("/api/accounts/")
       .then((data) => {
         setAccounts(data);
         setFields((prev) => ({ ...prev, account: data[0]?.id ?? "" }));
@@ -56,7 +56,7 @@ export default function TransactionForm() {
 
   useEffect(() => {
     api
-      .get("/categories/")
+      .get("/api/categories/")
       .then((data) => {
         setCategories(data);
         setFields((prev) => ({ ...prev, category: data[0]?.id ?? "" })); // 👈
