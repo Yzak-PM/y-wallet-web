@@ -34,7 +34,7 @@ export default function AccountsTable({ nature }){
                 <thead className={`text-sm text-nowrap text-body ${nature === 'asset' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'}`}>
                     <tr>
                     {accounts.filter(a => a.nature === nature).map((account) => (
-                        <th key={account.id} className="px-6 py-3 font-semibold">{account.name}</th>
+                        <th key={account.id} className="px-6 py-3 font-semibold w-40 min-w-40 max-w-40">{account.name}</th>
                     ))}
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@ export default function AccountsTable({ nature }){
                     {accounts.filter(a => a.nature === nature).map((account) => (
                         <td
                             key={account.id}
-                            className="px-4 py-3"
+                            className="px-4 py-3 w-40 min-w-40 max-w-40"
                             // style={{
                             //     borderBottom: `3px solid ${account.color}`,
                             // }}
