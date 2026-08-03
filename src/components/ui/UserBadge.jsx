@@ -54,7 +54,7 @@ export default function UserBadge() {
                     <div className="px-4 py-3 border-b border-neutral-400 text-sm text-heading">
                         <div className="flex justify-between items-center">
                             <div className="font-medium">{user?.first_name} {user?.last_name}</div>
-                            <Link href="/settings/profile" onClick={() => setOpen(false)}>
+                            <Link href="/settings/profile" onClick={() => setOpen(false)} prefetch={false}>
                                 <SettingsIcon className="cursor-pointer" />
                             </Link>
                         </div>
@@ -62,6 +62,7 @@ export default function UserBadge() {
                     </div>
                     <ul className="p-2 text-sm font-medium" aria-labelledby="avatarButton">
                         <Link
+                            prefetch={false}
                             href="/settings/accounts" 
                             onClick={() => setOpen(false)}
                             className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
@@ -69,6 +70,7 @@ export default function UserBadge() {
                             <CreditCardIcon /> Accounts
                         </Link>
                         <Link
+                            prefetch={false}
                             href="/settings/categories" 
                             onClick={() => setOpen(false)}
                             className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"
@@ -76,6 +78,7 @@ export default function UserBadge() {
                             <ShelvingUnitIcon /> Categories
                         </Link>
                         <Link 
+                            prefetch={false}
                             href="/settings/categories"
                             onClick={() => setOpen(false)}
                             className="p-2 flex gap-1 cursor-pointer rounded-md hover:bg-blue-50"

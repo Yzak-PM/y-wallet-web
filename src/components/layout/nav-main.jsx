@@ -5,7 +5,7 @@ export default function NavMain() {
   return ( 
     <div className="flex flex-row justify-between items-center">
       <div>
-        <Link href={"/dashboard/"}>
+        <Link href={"/dashboard/"} prefetch={false}>
           <h1 
             className="text-xl font-bold text-neutral-600"
           >
