@@ -53,7 +53,7 @@ export default function Accounts() {
         color: "green",
         icon: <CheckCircleIcon />,
       });
-      setRefreshAccounts(prev => prev + 1)
+      setRefreshAccounts((prev) => prev + 1);
     } catch (err) {
       showToast({
         msg:
@@ -141,7 +141,7 @@ export default function Accounts() {
               color: "green",
               icon: <CheckCircleIcon />,
             });
-            setRefreshAccounts(prev => prev + 1)
+            setRefreshAccounts((prev) => prev + 1);
           }}
         />
       )}
