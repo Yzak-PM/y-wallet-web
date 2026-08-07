@@ -48,34 +48,38 @@ export default function LoginPage() {
     <div className="grid place-content-center items-center h-screen">
       <form
         onSubmit={handleSubmit}
-        className="rounded-xl shadow-2xl p-6 flex flex-col gap-5 w-[calc(100dvw-60px)] md:w-120"
+        className="rounded-xl shadow-2xl p-6 flex flex-col w-[calc(100dvw-60px)] md:w-120"
       >
         <h2 className={`${medieval.className} text-5xl text-center`}>
           Yzak Wallet
         </h2>
-        <div className="flex flex-col gap-1">
-          <label className="font-medium">User:</label>
-          <CustomInput
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          {fieldErrors.username && (
-            <p className="text-red-500 text-xs ms-1">{fieldErrors.username}</p>
-          )}
+        <div className="flex flex-col justify-center items-center gap-4 mt-4 mb-9">
+          <div className="flex flex-col gap-1 ">
+            <label className="font-medium">User:</label>
+            <CustomInput
+              type="text"
+              value={username}
+              className="min-w-[280px] w-full"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            {fieldErrors.username && (
+              <p className="text-red-500 text-xs ms-1">{fieldErrors.username}</p>
+            )}
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-medium">Password:</label>
+            <CustomInput
+              type="password"
+              value={password}
+              className="min-w-[280px] w-full"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {fieldErrors.password && (
+              <p className="text-red-500 text-xs ms-1">{fieldErrors.password}</p>
+            )}
+          </div>
+          {error && <p className="text-red-600">{error}</p>}
         </div>
-        <div className="flex flex-col gap-1">
-          <label className="font-medium">Password:</label>
-          <CustomInput
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {fieldErrors.password && (
-            <p className="text-red-500 text-xs ms-1">{fieldErrors.password}</p>
-          )}
-        </div>
-        {error && <p className="text-red-600">{error}</p>}
         <button
           type="submit"
           disabled={loading}
