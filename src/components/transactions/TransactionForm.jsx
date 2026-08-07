@@ -92,7 +92,7 @@ export default function TransactionForm() {
         description: fields.description.trim() || null,
         account: fields.account,
         type: fields.type.toLowerCase(), //to lower para que funcione con el backend
-				destination_account: fields.destination_account,
+        destination_account: fields.destination_account,
       };
 
       await createTransaction(payload);
@@ -113,9 +113,7 @@ export default function TransactionForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="h-screen">
-      <div
-        className={`grid gap-3 content-end grid-cols-2 sm:grid-cols-3`}
-      >
+      <div className={`grid gap-3 content-end grid-cols-2 sm:grid-cols-3`}>
         <div className="flex flex-col">
           {isMovement && (
             <label htmlFor="" className="text-white text-xs">
@@ -132,21 +130,21 @@ export default function TransactionForm() {
           />
         </div>
 
-				{!isMovement && 
-					<div className="flex flex-col">
-						<CustomSelect
-							name="category"
-							value={fields.category}
-							onChange={handleChange}
-							disabled={isLoading || loadingCategories}
-							className={isMovement ? "max-h-7" : ""}
-							options={categories.map((cat) => ({
-								id: cat.id,
-								label: `${cat.icon} ${cat.title}`,
-							}))}
-						/>
-					</div>
-				}
+        {!isMovement && (
+          <div className="flex flex-col">
+            <CustomSelect
+              name="category"
+              value={fields.category}
+              onChange={handleChange}
+              disabled={isLoading || loadingCategories}
+              className={isMovement ? "max-h-7" : ""}
+              options={categories.map((cat) => ({
+                id: cat.id,
+                label: `${cat.icon} ${cat.title}`,
+              }))}
+            />
+          </div>
+        )}
 
         <div className="flex flex-col">
           {isMovement && (

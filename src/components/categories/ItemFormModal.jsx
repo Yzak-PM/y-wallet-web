@@ -1,10 +1,16 @@
-'use client';
+"use client";
 import { useState } from "react";
 import { XIcon, LoaderIcon } from "lucide-react";
 import CustomInput from "../ui/CustomInput";
 import { api } from "@/lib/api";
 
-export default function ItemFormModal({ mode, section, item, onClose, onSuccess }) {
+export default function ItemFormModal({
+  mode,
+  section,
+  item,
+  onClose,
+  onSuccess,
+}) {
   const isEdit = mode === "edit";
   const isCategory = section === "categories";
   const endpoint = isCategory ? "/api/categories/" : "/api//tags/";
@@ -31,8 +37,7 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
         form.color !== item?.color ||
         form.type !== item?.type ||
         form.icon !== (item?.icon || "")
-      : form.name !== (item?.name || "") ||
-        form.color !== item?.color 
+      : form.name !== (item?.name || "") || form.color !== item?.color
     : true;
 
   const validate = () => {
@@ -47,9 +52,9 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
   };
 
   const handleChange = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }));
     if (fieldErrors[field]) {
-      setFieldErrors(prev => ({ ...prev, [field]: undefined }));
+      setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
     }
     if (error) setError(null);
   };
@@ -67,8 +72,14 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
 
     try {
       const payload = isCategory
-        ? { color: form.color, type: form.type, title: form.title, description: form.description, icon: form.icon[0] }
-        : { color: form.color, name: form.name};
+        ? {
+            color: form.color,
+            type: form.type,
+            title: form.title,
+            description: form.description,
+            icon: form.icon[0],
+          }
+        : { color: form.color, name: form.name };
 
       if (isEdit) {
         await api.put(`${endpoint}${item.id}/`, payload);
@@ -78,10 +89,12 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
 
       onSuccess();
     } catch (err) {
-      setError(err.response?.data?.name?.[0]     
-        || err.response?.data?.detail
-        || err.message
-        || "Something went wrong, please try again later.");
+      setError(
+        err.response?.data?.name?.[0] ||
+          err.response?.data?.detail ||
+          err.message ||
+          "Something went wrong, please try again later.",
+      );
     } finally {
       setLoading(false);
     }
@@ -102,12 +115,14 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
     >
       <div
         className="bg-white rounded-xl border border-neutral-200 p-4 w-full max-w-md shadow-lg"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-lg">
-            {isEdit ? `Edit ${label}: ${item?.title || item?.name}` : `New ${label}`}
+            {isEdit
+              ? `Edit ${label}: ${item?.title || item?.name}`
+              : `New ${label}`}
           </h2>
           <button
             onClick={onClose}
@@ -126,7 +141,7 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
             <input
               type="color"
               value={form.color}
-              onChange={e => handleChange("color", e.target.value)}
+              onChange={(e) => handleChange("color", e.target.value)}
               disabled={loading}
               className="rounded-xl cursor-pointer w-12 h-6 disabled:opacity-50 disabled:cursor-not-allowed"
             />
@@ -136,13 +151,16 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
           {/* Title (category) / Name (tag) */}
           <div className="flex flex-col gap-1">
             <label className="ms-1 text-sm">
-              {isCategory ? "Title" : "Name"}: <span className="text-red-400">*</span>
+              {isCategory ? "Title" : "Name"}:{" "}
+              <span className="text-red-400">*</span>
             </label>
             <CustomInput
               type="text"
               placeholder={isCategory ? "e.g. Food" : "e.g. family"}
               value={isCategory ? form.title : form.name}
-              onChange={e => handleChange(isCategory ? "title" : "name", e.target.value)}
+              onChange={(e) =>
+                handleChange(isCategory ? "title" : "name", e.target.value)
+              }
               disabled={loading}
             />
             {(fieldErrors.title || fieldErrors.name) && (
@@ -159,7 +177,7 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
                 <label className="ms-1 text-sm">Type:</label>
                 <select
                   value={form.type}
-                  onChange={e => handleChange("type", e.target.value)}
+                  onChange={(e) => handleChange("type", e.target.value)}
                   disabled={loading}
                   className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -176,11 +194,13 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
                   type="text"
                   placeholder="e.g. 🏠"
                   value={form.icon}
-                  onChange={e => handleChange("icon", e.target.value)}
+                  onChange={(e) => handleChange("icon", e.target.value)}
                   disabled={loading}
                 />
                 {fieldErrors.icon && (
-                  <p className="text-red-500 text-xs ms-1">{fieldErrors.icon}</p>
+                  <p className="text-red-500 text-xs ms-1">
+                    {fieldErrors.icon}
+                  </p>
                 )}
               </div>
             </>
@@ -190,13 +210,14 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
           {isCategory && (
             <div className="flex flex-col gap-1">
               <label className="ms-1 text-sm">
-                Description: <span className="text-neutral-400 text-xs">(optional)</span>
+                Description:{" "}
+                <span className="text-neutral-400 text-xs">(optional)</span>
               </label>
               <CustomInput
                 type="text"
                 placeholder="Short description for this category"
                 value={form.description}
-                onChange={e => handleChange("description", e.target.value)}
+                onChange={(e) => handleChange("description", e.target.value)}
                 disabled={loading}
               />
             </div>
@@ -204,9 +225,7 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
         </div>
 
         {/* Error general */}
-        {error && (
-          <p className="text-red-600 text-sm mt-3">{error}</p>
-        )}
+        {error && <p className="text-red-600 text-sm mt-3">{error}</p>}
 
         {/* Footer */}
         <div className="flex justify-end gap-2 mt-5">
@@ -224,10 +243,13 @@ export default function ItemFormModal({ mode, section, item, onClose, onSuccess 
             disabled={submitDisabled}
             className="flex items-center justify-center px-4 py-1.5 cursor-pointer rounded-lg text-sm font-medium text-white bg-gradient-to-r from-cyan-400 to-cyan-600 hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
-            {loading
-              ? <LoaderIcon size={18} className="animate-spin" />
-              : isEdit ? "Save Changes" : `Create ${label}`
-            }
+            {loading ? (
+              <LoaderIcon size={18} className="animate-spin" />
+            ) : isEdit ? (
+              "Save Changes"
+            ) : (
+              `Create ${label}`
+            )}
           </button>
         </div>
       </div>

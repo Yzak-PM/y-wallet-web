@@ -1,10 +1,15 @@
-'use client';
+"use client";
 import { useState } from "react";
 import { XIcon, LoaderIcon } from "lucide-react";
 import CustomInput from "../ui/CustomInput";
 import { api } from "@/lib/api";
 
-export default function AccountFormModal({ mode, account, onClose, onSuccess }) {
+export default function AccountFormModal({
+  mode,
+  account,
+  onClose,
+  onSuccess,
+}) {
   const isEdit = mode === "edit";
 
   const [form, setForm] = useState(() => ({
@@ -12,7 +17,7 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
     type: account?.type || "bank",
     nature: account?.nature || "asset",
     color: account?.color || "#3b82f6",
-    balance: isEdit ? account?.balance || 0.00 : "",
+    balance: isEdit ? account?.balance || 0.0 : "",
   }));
 
   const [fieldErrors, setFieldErrors] = useState({});
@@ -20,31 +25,29 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
   const [error, setError] = useState(null);
 
   const hasChanges = isEdit
-    ? 
-    form.name !== (account?.name || "") ||
-    form.type !== account?.type || 
-    form.nature !== account?.nature ||
-    form.color !== account?.color
-    :
-    true;
+    ? form.name !== (account?.name || "") ||
+      form.type !== account?.type ||
+      form.nature !== account?.nature ||
+      form.color !== account?.color
+    : true;
 
   const validate = () => {
     const errors = {};
-    if(!form.name.trim()) errors.name = "Account name is required";
+    if (!form.name.trim()) errors.name = "Account name is required";
     return errors;
-  }
+  };
 
   const handleChange = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }));
-    if(fieldErrors[field]) {
-      setFieldErrors(prev => ({ ...prev, [field]: undefined }));
+    setForm((prev) => ({ ...prev, [field]: value }));
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
     }
-    if(error) setError(null);
-  }
+    if (error) setError(null);
+  };
 
   const handleSubmit = async () => {
     const errors = validate();
-    if(Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       return;
     }
@@ -52,49 +55,50 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
     setLoading(true);
     setError(null);
     setFieldErrors({});
-    
+
     try {
       const payload = {
         name: form.name,
-        type: form.type, 
+        type: form.type,
         nature: form.nature,
         color: form.color,
         balance: form.balance,
-      }
+      };
 
-      if(isEdit) {
+      if (isEdit) {
         await api.put(`/api/accounts/${account.id}/`, payload);
       } else {
-        await api.post('/api/accounts/', payload);
+        await api.post("/api/accounts/", payload);
       }
 
       onSuccess();
-    } catch(err) {  
-      setError(err.response?.data?.name?.[0]
-        || err.response?.data?.detail
-        || err.message
-        || "Something went wrong, please try again later."
-      )
+    } catch (err) {
+      setError(
+        err.response?.data?.name?.[0] ||
+          err.response?.data?.detail ||
+          err.message ||
+          "Something went wrong, please try again later.",
+      );
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleKeyDown = (e) => {
-    if(e.key === "Escape") onClose();
-  }
+    if (e.key === "Escape") onClose();
+  };
 
   const submitDisabled = loading || !hasChanges;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-3"
       onClick={onClose}
       onKeyDown={handleKeyDown}
     >
-      <div 
+      <div
         className="bg-white rounded-xl border border-neutral-200 p-4 w-full max-w-md shadow-lg"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
@@ -119,13 +123,11 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
               type="text"
               placeholder="My new account"
               value={form.name}
-              onChange={e => handleChange("name", e.target.value)}
+              onChange={(e) => handleChange("name", e.target.value)}
               disabled={loading}
             />
             {fieldErrors.name && (
-              <p className="text-red-500 text-xs ms-1">
-                {fieldErrors.name}
-              </p>
+              <p className="text-red-500 text-xs ms-1">{fieldErrors.name}</p>
             )}
           </div>
           {/* Type */}
@@ -133,7 +135,7 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
             <label className="ms-1 text-sm">Type:</label>
             <select
               value={form.type}
-              onChange={e => handleChange("type", e.target.value)}
+              onChange={(e) => handleChange("type", e.target.value)}
               disabled={loading}
               className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -149,7 +151,7 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
             <label className="ms-1 text-sm">Nature:</label>
             <select
               value={form.nature}
-              onChange={e => handleChange("nature", e.target.value)}
+              onChange={(e) => handleChange("nature", e.target.value)}
               disabled={loading}
               className="px-3 py-1 bg-neutral-secondary-medium border border-gray-200 rounded-full text-sm focus:ring-brand focus:border-brand shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -163,7 +165,7 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
             <input
               type="color"
               value={form.color}
-              onChange={e => handleChange("color", e.target.value)}
+              onChange={(e) => handleChange("color", e.target.value)}
               disabled={loading}
               className="rounded-xl cursor-pointer w-12 h-6 disabled:opacity-50 disabled:cursor-not-allowed"
             />
@@ -177,19 +179,17 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
                 type="number"
                 placeholder="1000.00"
                 value={form.balance}
-                onChange={e => handleChange("balance", e.target.value)}
+                onChange={(e) => handleChange("balance", e.target.value)}
                 disabled={loading}
               />
             </div>
           )}
 
-          {error && (
-            <p className="text-red-600 text-sm mt-3">{error}</p>
-          )}
+          {error && <p className="text-red-600 text-sm mt-3">{error}</p>}
 
           {/* Footer */}
           <div className="flex justify-end gap-2 mt-5">
-            <button 
+            <button
               type="button"
               onClick={onClose}
               disabled={loading}
@@ -203,14 +203,17 @@ export default function AccountFormModal({ mode, account, onClose, onSuccess }) 
               disabled={submitDisabled}
               className="flex items-center justify-center px-4 py-1.5 cursor-pointer rounded-lg text-sm font-medium text-white bg-gradient-to-r from-cyan-400 to-cyan-600 hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              {loading
-                ? <LoaderIcon size={18} className="animate-spin" />
-                : isEdit ? "Save Changes" : "Create account"
-              }
+              {loading ? (
+                <LoaderIcon size={18} className="animate-spin" />
+              ) : isEdit ? (
+                "Save Changes"
+              ) : (
+                "Create account"
+              )}
             </button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
